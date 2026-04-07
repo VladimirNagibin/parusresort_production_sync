@@ -1,0 +1,5 @@
+services:
+  parus_sync:
+    build:
+      context: ./parus_sync
+      dockerfile: Dockerfile

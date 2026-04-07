@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моя простая страница</title>
+    <style>
+        /* Базовые стили для красоты */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 500px;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        p {
+            line-height: 1.6;
+            color: #666;
+        }
+        ul {
+            text-align: left;
+            margin: 20px 0;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+
+
+
+
+
+<!-- Подключаем JivoChat API с принудительным скрытием кнопки -->
+<script>
+    // Отключаем стандартную кнопку JivoChat до загрузки
+    window.jivo_config = {
+        widget: {
+            hideButton: true
+        }
+    };
+</script>
+<script src="//code.jivo.ru/widget/indvitRw5Z" async></script>
+
+<!-- Подключаем Битрикс24 API с полным скрытием кнопки -->
+<script>
+    // Загружаем Битрикс24 без виджета
+    (function(w,d,u){
+        var s=d.createElement('script');
+        s.async=true;
+        s.src=u+'?'+(Date.now()/60000|0);
+        // Скрываем стандартную кнопку через атрибуты и CSS
+        s.setAttribute('data-skip-button', 'true');
+        s.setAttribute('data-button-disabled', 'true');
+        var h=d.getElementsByTagName('script')[0];
+        h.parentNode.insertBefore(s,h);
+    })(window,document,'https://cdn-ru.bitrix24.kz/b34684098/crm/site_button/loader_2_4k3a1v.js');
+</script>
+
+<!-- Дополнительный CSS для принудительного скрытия оригинальных кнопок -->
+<style>
+    /* Скрываем оригинальную кнопку JivoChat */
+    .jivo_custom_button,
+    .jivo-button,
+    .jivo_custom,
+    #jivo_custom_widget,
+    .jivo_widget {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+    
+    /* Скрываем оригинальную кнопку Битрикс24 */
+    .b24-widget-button,
+    .b24-widget-button-popup,
+    .b24-widget-button-wrapper,
+    .b24-widget-button-shadow,
+    .b24-widget-button-collapse,
+    div[data-b24-crm-button-widget],
+    #b24-widget-button,
+    .b24-widget-button-position {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+    
+    /* Скрываем все возможные контейнеры кнопок */
+    [class*="b24-widget"],
+    [class*="jivo"],
+    [id*="b24-widget"],
+    [id*="jivo"] {
+        display: none !important;
+    }
+    
+    /* Ваша кастомная кнопка */
+    .custom-chat-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+    
+    .custom-chat-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    
+    .custom-chat-button svg {
+        width: 35px;
+        height: 35px;
+        fill: white;
+    }
+    
+    .chat-options {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        z-index: 9998;
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .chat-options.show {
+        display: flex;
+    }
+    
+    .chat-option {
+        background: white;
+        padding: 12px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .chat-option:hover {
+        transform: translateX(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+    
+    .chat-option.jivo {
+        color: #4A90E2;
+        border: 1px solid #4A90E2;
+    }
+    
+    .chat-option.bitrix {
+        color: #2C9B6E;
+        border: 1px solid #2C9B6E;
+    }
+    
+    .chat-option svg {
+        width: 20px;
+        height: 20px;
+    }
+</style>
+
+<div class="custom-chat-button" id="customChatButton">
+    <svg viewBox="0 0 24 24">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+    </svg>
+</div>
+
+<div class="chat-options" id="chatOptions">
+    <div class="chat-option jivo" onclick="openJivoChat()">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+        </svg>
+        Чат в Jivo
+    </div>
+    <div class="chat-option bitrix" onclick="openBitrixChat()">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M4 4h16v12H5.17L4 17.17V4z"/>
+        </svg>
+        Чат в Битрикс24
+    </div>
+</div>
+
+<script>
+    // Функции для открытия чатов
+    function openJivoChat() {
+        if (window.jivo && window.jivo.open) {
+            window.jivo.open();
+        } else {
+            console.log('JivoChat не загружен');
+            alert('JivoChat пока не загружен, попробуйте через секунду');
+        }
+        document.getElementById('chatOptions').classList.remove('show');
+    }
+    
+    // Улучшенная функция открытия Битрикс24 чата
+    function openBitrixChat() {
+        console.log('Пытаемся открыть Битрикс24 чат...');
+        
+        // Способ 1: Через BX24
+        if (window.BX24 && typeof window.BX24.openChat === 'function') {
+            console.log('Открываем через BX24.openChat');
+            window.BX24.openChat();
+            document.getElementById('chatOptions').classList.remove('show');
+            return;
+        }
+        
+        // Способ 2: Через b24.button
+        if (window.b24 && window.b24.button && typeof window.b24.button.open === 'function') {
+            console.log('Открываем через b24.button.open');
+            window.b24.button.open();
+            document.getElementById('chatOptions').classList.remove('show');
+            return;
+        }
+        
+        // Способ 3: Через глобальный объект Bitrix24
+        if (window.Bitrix24 && window.Bitrix24.openChat) {
+            console.log('Открываем через Bitrix24.openChat');
+            window.Bitrix24.openChat();
+            document.getElementById('chatOptions').classList.remove('show');
+            return;
+        }
+        
+        // Способ 4: Поиск и клик по скрытой кнопке
+        const hiddenButton = document.querySelector('.b24-widget-button');
+        if (hiddenButton) {
+            console.log('Кликаем по скрытой кнопке');
+            hiddenButton.click();
+            document.getElementById('chatOptions').classList.remove('show');
+            return;
+        }
+        
+        // Способ 5: Эмуляция события
+        const widget = document.querySelector('[data-b24-crm-button-widget]');
+        if (widget && widget.click) {
+            console.log('Кликаем по виджету');
+            widget.click();
+            document.getElementById('chatOptions').classList.remove('show');
+            return;
+        }
+        
+        console.log('Битрикс24 чат не найден');
+        alert('Битрикс24 чат пока не загружен. Пожалуйста, попробуйте через несколько секунд.');
+    }
+    
+    // Дополнительная функция для скрытия кнопок после их загрузки
+    function hideOriginalButtons() {
+        // Периодически проверяем и скрываем кнопки, если они появились
+        const observer = new MutationObserver(function() {
+            // Ищем и скрываем кнопку Jivo
+            const jivoButtons = document.querySelectorAll('.jivo_custom_button, .jivo-button, [class*="jivo_custom"], #jivo_custom_widget');
+            jivoButtons.forEach(btn => {
+                btn.style.display = 'none';
+                btn.style.opacity = '0';
+                btn.style.visibility = 'hidden';
+                btn.style.pointerEvents = 'none';
+            });
+            
+            // Ищем и скрываем кнопку Битрикс
+            const bitrixButtons = document.querySelectorAll('.b24-widget-button, [class*="b24-widget"], #b24-widget-button');
+            bitrixButtons.forEach(btn => {
+                btn.style.display = 'none';
+                btn.style.opacity = '0';
+                btn.style.visibility = 'hidden';
+                btn.style.pointerEvents = 'none';
+            });
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+    
+    // Проверяем загрузку Битрикс24 и выводим отладку
+    function checkBitrix24Loaded() {
+        setTimeout(function() {
+            if (window.BX24) {
+                console.log('✅ BX24 загружен');
+            } else if (window.b24) {
+                console.log('✅ b24 загружен');
+            } else {
+                console.log('❌ Битрикс24 не загружен');
+            }
+        }, 3000);
+    }
+    
+    // Запускаем скрытие кнопок после загрузки страницы
+    window.addEventListener('load', function() {
+        hideOriginalButtons();
+        checkBitrix24Loaded();
+    });
+    hideOriginalButtons(); // Запускаем сразу
+    
+    // Обработчик кнопки
+    document.getElementById('customChatButton').addEventListener('click', function(e) {
+        e.stopPropagation();
+        const options = document.getElementById('chatOptions');
+        options.classList.toggle('show');
+    });
+    
+    // Закрываем меню при клике вне его
+    document.addEventListener('click', function() {
+        document.getElementById('chatOptions').classList.remove('show');
+    });
+    
+    // Предотвращаем закрытие меню при клике на него
+    document.getElementById('chatOptions').addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+</script>
+
+
+
+	
+</head>
+<body>
+
+    <div class="container">
+        <h1>Привет, мир! </h1>
+        <p>Это пример простой HTML-страницы. Она адаптирована для мобильных устройств и имеет минимальное оформление.</p>
+        
+        <h3>Что внутри?</h3>
+        <ul>
+            <li>Правильная структура (DOCTYPE, html, head, body)</li>
+            <li>Мета-теги для кодировки и масштабирования</li>
+            <li>Встроенные CSS стили</li>
+            <li>Элементы интерфейса</li>
+        </ul>
+
+        <button class="btn" onclick="alert('Кнопка работает!')">Нажми меня</button>
+    </div>
+  
+
+</body>
+</html>

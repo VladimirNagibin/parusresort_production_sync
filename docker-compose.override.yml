@@ -1,0 +1,8 @@
+services:
+  parus_sync:
+    volumes:
+      - ./parus_sync/src:/app/src
+    env_file:
+      - ./.env
+    ports:
+     - 8000:8000
