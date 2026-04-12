@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from typing import AsyncIterator
 
+from fastapi.staticfiles import StaticFiles
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
@@ -31,6 +32,10 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
     setup_routes(app)
+
+    # Монтируем папку static по URL /static
+    app.mount("/static", StaticFiles(directory=f"{settings.BASE_DIR}/static"), name="static")
+
     return app
 
 
