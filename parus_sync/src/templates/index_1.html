@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моя простая страница</title>
+    <title>Битрикс24 + Jivo (рабочий перехват)</title>
     <style>
-        /* Базовые стили для красоты */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
@@ -25,20 +24,8 @@
             max-width: 500px;
             text-align: center;
         }
-        h1 {
-            color: #2c3e50;
-        }
-        p {
-            line-height: 1.6;
-            color: #666;
-        }
-        ul {
-            text-align: left;
-            margin: 20px 0;
-        }
-        li {
-            margin-bottom: 8px;
-        }
+        h1 { color: #2c3e50; }
+        p { line-height: 1.6; color: #666; }
         .btn {
             display: inline-block;
             padding: 10px 25px;
@@ -48,124 +35,79 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
         }
-        .btn:hover {
-            background-color: #2980b9;
-        }
+        .btn:hover { background-color: #2980b9; }
+
     </style>
 
- <!--
-<script src="//code.jivo.ru/widget/indvitRw5Z" async></script>
-<script>
+    <!-- JIVO (кнопка скрыта, но чат работает) -->
+    <script> function jivo_onLoadCallback() {const jivo_custom_widget = true;}</script>
+    <script src="//code.jivo.ru/widget/tw6Qsdw787" async></script>
+    
+    <!-- БИТРИКС24 (виджет видим) -->
+    <script>
         (function(w,d,u){
-                var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
-                var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+            var s=d.createElement('script'); s.async=true; s.src=u+'?'+(Date.now()/60000|0);
+            var h=d.getElementsByTagName('script')[0]; h.parentNode.insertBefore(s,h);
         })(window,document,'https://cdn-ru.bitrix24.kz/b34684098/crm/site_button/loader_2_4k3a1v.js');
-</script>
--->
-
-
-<!-- 1. СКРИПТЫ ВИДЖЕТОВ (Оставляем ваши) -->
-<script src="//code.jivo.ru/widget/indvitRw5Z" async></script>
-<script>
-        (function(w,d,u){
-                var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
-                var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-        })(window,document,'https://cdn-ru.bitrix24.kz/b34684098/crm/site_button/loader_2_4k3a1v.js');
-</script>
-
-
+    </script>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Привет, мир! </h1>
-        <p>Это пример простой HTML-страницы. Она адаптирована для мобильных устройств и имеет минимальное оформление.</p>
-        
-        <h3>Что внутри?</h3>
-        <ul>
-            <li>Правильная структура (DOCTYPE, html, head, body)</li>
-            <li>Мета-теги для кодировки и масштабирования</li>
-            <li>Встроенные CSS стили</li>
-            <li>Элементы интерфейса</li>
-        </ul>
-
-        <button class="btn" onclick="alert('Кнопка работает!')">Нажми меня</button>
-    </div>
-
-
-<!-- 2. СТИЛИ И HTML НАШЕЙ ОБЩЕЙ КНОПКИ -->
-<style>
-    .unified-chat-btn {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 60px;
-        height: 60px;
-        background-color: #00b05d;
-        border-radius: 50%;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        cursor: pointer;
-        z-index: 2147483647;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.2s;
-    }
-    .unified-chat-btn:hover { transform: scale(1.1); }
-    
-    .chat-icon-svg { width: 32px; height: 32px; fill: white; }
-
-    .chat-menu {
-        position: fixed;
-        bottom: 90px;
-        right: 20px;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-        display: none;
-        flex-direction: column;
-        z-index: 2147483646;
-        min-width: 200px;
-        overflow: hidden;
-        font-family: Arial, sans-serif;
-    }
-    .chat-menu.active { display: flex; animation: fadeIn 0.2s ease-out; }
-    
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    .chat-option {
-        padding: 15px 20px;
-        cursor: pointer;
-        font-size: 15px;
-        color: #333;
-        border-bottom: 1px solid #f0f0f0;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    .chat-option:hover { background-color: #f9f9f9; }
-    .chat-option:last-child { border-bottom: none; }
-</style>
-
-<div class="unified-chat-btn" onclick="toggleChatMenu()" title="Чат поддержки">
-    <svg class="chat-icon-svg" viewBox="0 0 24 24">
-        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"></path>
-    </svg>
+<div class="container">
+    <h1>Тест</h1>
+    <p>Виджет Битрикс24 виден, кнопка Jivo скрыта.</p>
+    <p>Нажмите на иконку <strong>«Jivo»</strong> – откроется Jivo-чат.</p>
+    <p>Нажмите на <strong>«Обратную связь»</strong> – откроется форма Битрикс (штатно).</p>
+    <!-- <button class="btn" onclick="alert('Тест')">Тест</button> -->
 </div>
 
-<div class="chat-menu" id="chatMenu">
-    <div class="chat-option" onclick="openJivo()">
-        <span> Онлайн-чат (Jivo)</span>
-    </div>
-    <div class="chat-option" onclick="openBitrix()">
-        <span> Менеджер (Битрикс)</span>
-    </div>
-</div>
+<script>
+    (function() {
+        const CHAT_SELECTOR = '.b24-widget-button-social-item[data-b24-crm-button-widget="openline_livechat"]';
 
-<!-- <script src="/static/js/chat-handlers.js"></script> -->
+        function openJivo() {
+            if (typeof jivo_api !== 'undefined' && jivo_api.open) {
+                console.log('Вызов jivo_api.open()');
+                jivo_api.open();
+            } else {
+                console.warn('Jivo API не загружен');
+                alert('Jivo чат временно недоступен.');
+            }
+        }
+
+        function interceptChatEvent(event) {
+            const chatButton = event.target.closest(CHAT_SELECTOR);
+            if (!chatButton) return;
+
+            console.log('Перехвачен клик по чату, открываем Jivo');
+            event.stopImmediatePropagation();
+            event.preventDefault();
+
+            openJivo();
+            return false;
+        }
+
+        // Перехват в фазе захвата
+        document.body.addEventListener('click', interceptChatEvent, true);
+        document.body.addEventListener('mousedown', interceptChatEvent, true);
+        document.body.addEventListener('touchstart', interceptChatEvent, true);
+        document.body.addEventListener('pointerdown', interceptChatEvent, true);
+
+        console.log('Перехватчики событий установлены для селектора:', CHAT_SELECTOR);
+
+        // Ждём загрузку Jivo API
+        if (typeof jivo_api === 'undefined') {
+            const jivoWait = setInterval(() => {
+                if (typeof jivo_api !== 'undefined') {
+                    clearInterval(jivoWait);
+                    console.log('Jivo API загружен');
+                }
+            }, 200);
+        }
+    })();
+
+</script>
 
 </body>
 </html>
