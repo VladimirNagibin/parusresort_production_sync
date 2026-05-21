@@ -34,7 +34,9 @@ def create_app() -> FastAPI:
     setup_routes(app)
 
     # Монтируем папку static по URL /static
-    app.mount("/static", StaticFiles(directory=f"{settings.BASE_DIR}/static"), name="static")
+    app.mount(
+        "/static", StaticFiles(directory=f"{settings.BASE_DIR}/static"), name="static"
+    )
 
     return app
 
