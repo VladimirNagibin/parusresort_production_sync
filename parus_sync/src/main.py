@@ -46,7 +46,7 @@ def start_server() -> None:
         port=settings.APP_PORT,
         # log_config=LOGGING_CONFIG,
         log_level=settings.LOG_LEVEL.lower(),
-        reload=True, # settings.APP_RELOAD,
+        reload=True,  # settings.APP_RELOAD,
     )
 
 
