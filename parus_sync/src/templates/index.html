@@ -4,26 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- JIVO (кнопка скрыта, но чат работает) -->
+    <!-- Виджет Jivo (кнопка скрыта, но сам чат активен) -->
     <script> function jivo_onLoadCallback() {const jivo_custom_widget = true;}</script>
-    <script src="//code.jivo.ru/widget/tw6Qsdw787" async></script>
+    <script src="//code.jivo.ru/widget/EpqrD0PZvX" async></script>
     
-    <!-- БИТРИКС24 (виджет видим) -->
+    <!-- БИТРИКС24 (виджет на сайте) -->
     <script>
-        (function(w,d,u){
-            var s=d.createElement('script'); s.async=true; s.src=u+'?'+(Date.now()/60000|0);
-            var h=d.getElementsByTagName('script')[0]; h.parentNode.insertBefore(s,h);
-        })(window,document,'https://cdn-ru.bitrix24.kz/b34684098/crm/site_button/loader_2_4k3a1v.js');
-    </script>
-    <!-- <script>
         (function(w,d,u){
                 var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
                 var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
         })(window,document,'https://cdn-ru.bitrix24.ru/b8388981/crm/site_button/loader_2_o0k0ls.js');
-    </script> -->
+    </script>
 </head>
 <body>
 
+<!-- Скрипт перехватывает клик по кнопке чата Битрикс24 открытые линии и открывает Jivo -->
 <script>
     (function() {
         const CHAT_SELECTOR = '.b24-widget-button-social-item[data-b24-crm-button-widget="openline_livechat"]';
