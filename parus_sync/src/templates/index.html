@@ -15,6 +15,12 @@
                 var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
         })(window,document,'https://cdn-ru.bitrix24.ru/b8388981/crm/site_button/loader_2_o0k0ls.js');
     </script>
+    <!-- <script>
+        (function(w,d,u){
+                var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
+                var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+        })(window,document,'https://cdn-ru.bitrix24.kz/b34684098/crm/site_button/loader_2_4k3a1v.js');
+    </script> -->
 </head>
 <body>
 
@@ -65,6 +71,121 @@
     })();
 
 </script>
+
+<script>
+    // Ждём, когда виджет полностью загрузится, и только тогда меняем названия
+    if (typeof BX !== 'undefined') {
+        BX.addCustomEvent(document, "b24-sitebutton-load", function (e, instance) {
+            // Кнопка Jivo чата
+            var jivoBtn = instance.buttons.findById('openline_livechat');
+            if (jivoBtn) {
+                jivoBtn.title = 'Написать в Макс';
+                // Также меняем текст во всплывающей подсказке, если она уже создана
+                var tooltip = jivoBtn.node.querySelector('.b24-widget-button-social-tooltip');
+                if (tooltip) tooltip.textContent = 'Написать в Макс';
+            }
+
+            // Кнопка CRM-формы
+            var formBtn = instance.buttons.findById('crmform');
+            if (formBtn) {
+                formBtn.title = 'Написать в чат';
+                var tooltip = formBtn.node.querySelector('.b24-widget-button-social-tooltip');
+                if (tooltip) tooltip.textContent = 'Написать в чат';
+            }
+
+            // Кнопки открытых линий (например, WhatsApp, Telegram)
+            var allButtons = instance.buttons.list;
+            for (var id in allButtons) {
+                if (id.startsWith('openline_') && id !== 'openline_livechat') {
+                    var btn = allButtons[id];
+                    btn.title = 'Заказать звонок';
+                    var tooltip = btn.node.querySelector('.b24-widget-button-social-tooltip');
+                    if (tooltip) tooltip.textContent = 'Заказать звонок';
+                }
+            }
+        });
+    } else {
+        // Если BX ещё не загружен, подождём немного и попробуем снова
+        window.addEventListener('load', function() {
+            if (typeof BX !== 'undefined') {
+                BX.addCustomEvent(document, "b24-sitebutton-load", arguments.callee);
+            }
+        });
+    }
+</script>
+<script>
+(function() {
+    // Настройки: укажите нужные названия кнопок
+    const BUTTON_LABELS = {
+        'openline_livechat': 'Написать в чат',       // Чат
+        'callback': 'Заказать звонок',               // Обратный звонок
+        'openline_2064b649-977c': 'Написать в Макс', // Макс
+        'default': 'Связаться с нами'                // Фолбэк для остальных кнопок
+    };
+
+    /**
+     * Функция замены текста в кнопках
+     */
+    function replaceButtonLabels() {
+        const buttons = document.querySelectorAll('.b24-widget-button-social-item');
+        
+        buttons.forEach(btn => {
+            const widgetType = btn.getAttribute('data-b24-crm-button-widget');
+            const tooltip = btn.querySelector('[data-b24-crm-button-tooltip]');
+            
+            if (!tooltip) return;
+
+            // Определяем новое название: по типу виджета или запасной вариант
+            const newLabel = BUTTON_LABELS[widgetType] || BUTTON_LABELS['default'];
+            
+            if (newLabel && tooltip.textContent !== newLabel) {
+                tooltip.textContent = newLabel;
+                // Также обновляем атрибут title для доступности
+                if (btn.hasAttribute('title')) {
+                    btn.setAttribute('title', newLabel);
+                }
+            }
+        });
+    }
+
+    /**
+     * Инициализация с обработкой динамической загрузки виджета
+     */
+    function init() {
+        // 1. Попытка запустить сразу (если виджет уже в DOM)
+        replaceButtonLabels();
+
+        // 2. Наблюдатель на случай, если виджет подгрузится позже (AJAX / lazy-load)
+        if (window.MutationObserver) {
+            const observer = new MutationObserver((mutations, obs) => {
+                const widget = document.querySelector('.b24-widget-button-wrapper');
+                if (widget) {
+                    replaceButtonLabels();
+                    // Опционально: отключить наблюдение после успешной замены
+                    obs.disconnect(); 
+                }
+            });
+            
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+
+        // 3. Дополнительная подстраховка: повтор на случай задержки рендеринга
+        setTimeout(replaceButtonLabels, 1000);
+        setTimeout(replaceButtonLabels, 3000);
+    }
+
+    // Запуск после загрузки DOM
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+</script>
+
 
 </body>
 </html>
