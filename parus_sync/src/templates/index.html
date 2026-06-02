@@ -4,180 +4,109 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Виджет Jivo (кнопка скрыта, но сам чат активен) -->
-    <script> function jivo_onLoadCallback() {const jivo_custom_widget = true;}</script>
-    <script src="//code.jivo.ru/widget/EpqrD0PZvX" async></script>
+<style>
+    /* Блокируем клики по оригинальной кнопке чата Битрикс */
+    .b24-widget-button-social-item[data-b24-crm-button-widget="openline_livechat"] {
+        pointer-events: none !important;
+        cursor: default !important;
+    }
     
-    <!-- БИТРИКС24 (виджет на сайте) -->
-    <script>
-        (function(w,d,u){
-                var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
-                var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-        })(window,document,'https://cdn-ru.bitrix24.ru/b8388981/crm/site_button/loader_2_o0k0ls.js');
-    </script>
-    <!-- <script>
-        (function(w,d,u){
-                var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
-                var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-        })(window,document,'https://cdn-ru.bitrix24.kz/b34684098/crm/site_button/loader_2_4k3a1v.js');
-    </script> -->
+    /* Скрываем оригинальный tooltip, чтобы не было двойных подсказок */
+    .b24-widget-button-social-item[data-b24-crm-button-widget="openline_livechat"] .b24-widget-button-social-tooltip {
+        display: none !important;
+    }
+</style>
+<!-- Виджет Jivo (кнопка скрыта, но сам чат активен) -->
+<script> function jivo_onLoadCallback() {const jivo_custom_widget = true;}</script>
+<script src="//code.jivo.ru/widget/EpqrD0PZvX" async></script>
+
+<!-- БИТРИКС24 (виджет на сайте уже присутствует) -->
+<script>
+	(function(w,d,u){
+			var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
+			var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+	})(window,document,'https://cdn-ru.bitrix24.ru/b8388981/crm/site_button/loader_2_o0k0ls.js');
+</script>
+	
+
 </head>
 <body>
 
-<!-- Скрипт перехватывает клик по кнопке чата Битрикс24 открытые линии и открывает Jivo -->
-<script>
-    (function() {
-        const CHAT_SELECTOR = '.b24-widget-button-social-item[data-b24-crm-button-widget="openline_livechat"]';
-
-        function openJivo() {
-            if (typeof jivo_api !== 'undefined' && jivo_api.open) {
-                console.log('Вызов jivo_api.open()');
-                jivo_api.open();
-            } else {
-                console.warn('Jivo API не загружен');
-                alert('Jivo чат временно недоступен.');
-            }
-        }
-
-        function interceptChatEvent(event) {
-            const chatButton = event.target.closest(CHAT_SELECTOR);
-            if (!chatButton) return;
-
-            console.log('Перехвачен клик по чату, открываем Jivo');
-            event.stopImmediatePropagation();
-            event.preventDefault();
-
-            openJivo();
-            return false;
-        }
-
-        // Перехват в фазе захвата
-        document.body.addEventListener('click', interceptChatEvent, true);
-        document.body.addEventListener('mousedown', interceptChatEvent, true);
-        document.body.addEventListener('touchstart', interceptChatEvent, true);
-        document.body.addEventListener('pointerdown', interceptChatEvent, true);
-
-        console.log('Перехватчики событий установлены для селектора:', CHAT_SELECTOR);
-
-        // Ждём загрузку Jivo API
-        if (typeof jivo_api === 'undefined') {
-            const jivoWait = setInterval(() => {
-                if (typeof jivo_api !== 'undefined') {
-                    clearInterval(jivoWait);
-                    console.log('Jivo API загружен');
-                }
-            }, 200);
-        }
-    })();
-
-</script>
-
-<script>
-    // Ждём, когда виджет полностью загрузится, и только тогда меняем названия
-    if (typeof BX !== 'undefined') {
-        BX.addCustomEvent(document, "b24-sitebutton-load", function (e, instance) {
-            // Кнопка Jivo чата
-            var jivoBtn = instance.buttons.findById('openline_livechat');
-            if (jivoBtn) {
-                jivoBtn.title = 'Написать в Макс';
-                // Также меняем текст во всплывающей подсказке, если она уже создана
-                var tooltip = jivoBtn.node.querySelector('.b24-widget-button-social-tooltip');
-                if (tooltip) tooltip.textContent = 'Написать в Макс';
-            }
-
-            // Кнопка CRM-формы
-            var formBtn = instance.buttons.findById('crmform');
-            if (formBtn) {
-                formBtn.title = 'Написать в чат';
-                var tooltip = formBtn.node.querySelector('.b24-widget-button-social-tooltip');
-                if (tooltip) tooltip.textContent = 'Написать в чат';
-            }
-
-            // Кнопки открытых линий (например, WhatsApp, Telegram)
-            var allButtons = instance.buttons.list;
-            for (var id in allButtons) {
-                if (id.startsWith('openline_') && id !== 'openline_livechat') {
-                    var btn = allButtons[id];
-                    btn.title = 'Заказать звонок';
-                    var tooltip = btn.node.querySelector('.b24-widget-button-social-tooltip');
-                    if (tooltip) tooltip.textContent = 'Заказать звонок';
-                }
-            }
-        });
-    } else {
-        // Если BX ещё не загружен, подождём немного и попробуем снова
-        window.addEventListener('load', function() {
-            if (typeof BX !== 'undefined') {
-                BX.addCustomEvent(document, "b24-sitebutton-load", arguments.callee);
-            }
-        });
-    }
-</script>
 <script>
 (function() {
-    // Настройки: укажите нужные названия кнопок
-    const BUTTON_LABELS = {
-        'openline_livechat': 'Написать в чат',       // Чат
-        'callback': 'Заказать звонок',               // Обратный звонок
-        'openline_2064b649-977c': 'Написать в Макс', // Макс
-        'default': 'Связаться с нами'                // Фолбэк для остальных кнопок
+    'use strict';
+
+    const CONFIG = {
+        'openline_livechat': 'Написать в чат',
+        'callback': 'Заказать звонок',
+        'openline_2064b649-977c': 'Написать в Макс',
+        'default': 'Связаться с нами'
     };
 
-    /**
-     * Функция замены текста в кнопках
-     */
-    function replaceButtonLabels() {
+    const CHAT_SELECTOR = '.b24-widget-button-social-item[data-b24-crm-button-widget="openline_livechat"]';
+
+    // 1. Функция безопасного изменения названий
+    function updateLabels() {
         const buttons = document.querySelectorAll('.b24-widget-button-social-item');
-        
         buttons.forEach(btn => {
             const widgetType = btn.getAttribute('data-b24-crm-button-widget');
-            const tooltip = btn.querySelector('[data-b24-crm-button-tooltip]');
-            
+            const tooltip = btn.querySelector('.b24-widget-button-social-tooltip');
+
             if (!tooltip) return;
 
-            // Определяем новое название: по типу виджета или запасной вариант
-            const newLabel = BUTTON_LABELS[widgetType] || BUTTON_LABELS['default'];
-            
-            if (newLabel && tooltip.textContent !== newLabel) {
+            const newLabel = CONFIG[widgetType] || CONFIG['default'];
+
+            if (newLabel && tooltip && tooltip.textContent !== newLabel) {
                 tooltip.textContent = newLabel;
-                // Также обновляем атрибут title для доступности
-                if (btn.hasAttribute('title')) {
-                    btn.setAttribute('title', newLabel);
-                }
+                btn.setAttribute('title', newLabel);
             }
         });
     }
 
-    /**
-     * Инициализация с обработкой динамической загрузки виджета
-     */
-    function init() {
-        // 1. Попытка запустить сразу (если виджет уже в DOM)
-        replaceButtonLabels();
+    // 2. Жесткий перехват клика по чату Битрикс
+    function interceptEvent(event) {
+        const chatButton = event.target.closest(CHAT_SELECTOR);
+        if (!chatButton) return;
 
-        // 2. Наблюдатель на случай, если виджет подгрузится позже (AJAX / lazy-load)
-        if (window.MutationObserver) {
-            const observer = new MutationObserver((mutations, obs) => {
-                const widget = document.querySelector('.b24-widget-button-wrapper');
-                if (widget) {
-                    replaceButtonLabels();
-                    // Опционально: отключить наблюдение после успешной замены
-                    obs.disconnect(); 
-                }
-            });
-            
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true
-            });
-        }
+        // Блокируем стандартное поведение и всплытие на максимально ранней стадии
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
 
-        // 3. Дополнительная подстраховка: повтор на случай задержки рендеринга
-        setTimeout(replaceButtonLabels, 1000);
-        setTimeout(replaceButtonLabels, 3000);
+        console.log('Перехвачен клик по чату Битрикс, открываем Jivo');
+
+        // Открываем Jivo с небольшой задержкой, чтобы браузер успел отменить действие Битрикс
+        setTimeout(() => {
+            if (typeof jivo_api !== 'undefined' && jivo_api.open) {
+                jivo_api.open();
+            } else {
+                console.warn('Jivo API ещё не загружен или недоступен');
+            }
+        }, 50);
+
+        return false;
     }
 
-    // Запуск после загрузки DOM
+    // 3. Инициализация
+    function init() {
+        // Применяем метки сразу
+        updateLabels();
+
+        // Вешаем перехватчики в фазе ЗАХВАТА (capture: true) - это срабатывает раньше всего
+        const events = ['pointerdown', 'touchstart', 'mousedown', 'click'];
+        events.forEach(evt => {
+            // { capture: true, passive: false } критически важен для мобильных устройств
+            document.addEventListener(evt, interceptEvent, { capture: true, passive: false });
+        });
+
+        // Наблюдатель для случая, если Битрикс перерисует кнопки (например, при смене языка)
+        const observer = new MutationObserver(() => {
+            updateLabels();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    // Запуск
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
